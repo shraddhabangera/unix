@@ -1,0 +1,115 @@
+iv.Display the number of books written by each Author.
+mysql> select count(authorId) from BOOK group by authorId;
++-----------------+
+| count(authorId) |
++-----------------+
+|               1 |
+|               1 |
+|               2 |
+|               1 |
+|               1 |
++-----------------+
+5 rows in set (0.01 sec)
+
+mysql> select count(*) from BOOK group by authorId;
++----------+
+| count(*) |
++----------+
+|        1 |
+|        1 |
+|        2 |
+|        1 |
+|        1 |
++----------+
+5 rows in set (0.01 sec)
+
+mysql> select AUTHOR.authorName,count(*),BOOK.authorId from AUTHOR,BOOK where AUTHOR.authorId=BOOK.authorId group by authorId;
++-------------------+----------+----------+
+| authorName        | count(*) | authorId |
++-------------------+----------+----------+
+| Ramez Elmasri     |        1 | A1       |
+| Baidyanath Mishra |        1 | A2       |
+| Ellis Horowitz    |        2 | A3       |
+| Yunus             |        1 | A4       |
+| Deepak Kehamani   |        1 | A5       |
++-------------------+----------+----------+
+5 rows in set (0.00 sec)
+
+v.Display the student details who borrowed more than two books.
+mysql> select * from STUDENT where USN in(SELECT USN from BORROW where STUDENT.USN=BORROW.USN group by BORROW.USN having count(BORROW.USN)>2);
+
++------------+----------+---------+----------+-----+
+| USN        | name     | address | branchID | sem |
++------------+----------+---------+----------+-----+
+| 4VP21MC042 | Shraddha | Bantwal | B1       |   2 |
+| 4VP21MC046 | Shrux    | Mani    | B4       |   1 |
++------------+----------+---------+----------+-----+
+2 rows in set (0.01 sec)
+
+vi.Display the student details who borrowed books of more than one Author.
+mysql> select * from STUDENT s where exists(select br.usn from BORROW br,BOOK bk where br.bookId=bk.bookId and br.USN=s.USN group by USN having count(distinct authorId)>1);
++------------+----------+---------+----------+-----+
+| USN        | name     | address | branchID | sem |
++------------+----------+---------+----------+-----+
+| 4VP21MC042 | Shraddha | Bantwal | B1       |   2 |
+| 4VP21MC046 | Shrux    | Mani    | B4       |   1 |
++------------+----------+---------+----------+-----+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+lab-2
+
+mysql> create table student ( USN varchar(20)PRIMARY KEY NOT NULL, Name varchar(30)NOT NULL, DOB date, Branch varchar(30)NOT NULL, Mark1 int,
+Mark2 int, Mark3 int, Total float, GPA float );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++--------------------------+
+| Tables_in_VP21MC042_lab2 |
++--------------------------+
+| student                  |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| USN    | varchar(20) | NO   | PRI | NULL    |       |
+| Name   | varchar(30) | NO   |     | NULL    |       |
+| DOB    | date        | YES  |     | NULL    |       |
+| Branch | varchar(30) | NO   |     | NULL    |       |
+| Mark1  | int         | YES  |     | NULL    |       |
+| Mark2  | int         | YES  |     | NULL    |       |
+| Mark3  | int         | YES  |     | NULL    |       |
+| Total  | float       | YES  |     | NULL    |       |
+| GPA    | float       | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+
+mysql> insert into student(USN,Name,DOB,Branch)values("4VP21MC040","Shivani",'2000-02-10',"MCA");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(USN,Name,DOB,Branch)values("4VP21MB041","Sandhya",'2000-05-20',"MBA");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student(USN,Name,DOB,Branch)values("4VP21MC042","Shraddha",'1999-10-14',"MBA");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student(USN,Name,DOB,Branch)values("1001","disha",'1999-5-07',"MCA");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student(USN,Name,DOB,Branch)values("1002","akshar",'1999-11-11',"MCA");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+
