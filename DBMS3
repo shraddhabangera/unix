@@ -1,0 +1,306 @@
+i. Update the column total by adding the columns mark1, mark2, mark3.
+update student 
+    -> set Mark1=85,Mark2=76,Mark3=87 where USN="1001";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set Mark1=52,Mark2=71,Mark3=35 where USN="1002";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set Mark1=21,Mark2=35,Mark3=48 where USN="4VP21MB041";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+update student set Mark1=45,Mark2=56,Mark3=52 where USN="4VP21MC040";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set Mark1=45,Mark2=56,Mark3=52 where USN="4VP21MC042";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student;
++------------+----------+------------+--------+-------+-------+-------+-------+------+
+| USN        | Name     | DOB        | Branch | Mark1 | Mark2 | Mark3 | Total | GPA  |
++------------+----------+------------+--------+-------+-------+-------+-------+------+
+| 1001       | disha    | 1999-05-07 | MCA    |    85 |    76 |    87 |  NULL | NULL |
+| 1002       | akshar   | 1999-11-11 | MCA    |    52 |    71 |    35 |  NULL | NULL |
+| 4VP21MB041 | Sandhya  | 2000-05-20 | MBA    |    21 |    35 |    48 |  NULL | NULL |
+| 4VP21MC040 | Shivani  | 2000-02-10 | MCA    |    45 |    56 |    52 |  NULL | NULL |
+| 4VP21MC042 | Shraddha | 1999-10-14 | MBA    |    45 |    56 |    52 |  NULL | NULL |
++------------+----------+------------+--------+-------+-------+-------+-------+------+
+5 rows in set (0.00 sec)
+
+update student set Total=Mark1+Mark2+Mark3;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 5  Changed: 3  Warnings: 0
+
+mysql> select * from student;
++------------+----------+------------+--------+-------+-------+-------+-------+------+
+| USN        | Name     | DOB        | Branch | Mark1 | Mark2 | Mark3 | Total | GPA  |
++------------+----------+------------+--------+-------+-------+-------+-------+------+
+| 1001       | disha    | 1999-05-07 | MCA    |    85 |    76 |    87 |   248 | NULL |
+| 1002       | akshar   | 1999-11-11 | MCA    |    52 |    71 |    35 |   158 | NULL |
+| 4VP21MB041 | Sandhya  | 2000-05-20 | MBA    |    21 |    35 |    48 |   104 | NULL |
+| 4VP21MC040 | Shivani  | 2000-02-10 | MCA    |    45 |    56 |    52 |   153 | NULL |
+| 4VP21MC042 | Shraddha | 1999-10-14 | MBA    |    45 |    56 |    52 |   153 | NULL |
++------------+----------+------------+--------+-------+-------+-------+-------+------+
+5 rows in set (0.01 sec)
+
+
+ii. Find the GPA score of all the students.
+update student set GPA=Total/3;
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from student;
++------------+----------+------------+--------+-------+-------+-------+-------+---------+
+| USN        | Name     | DOB        | Branch | Mark1 | Mark2 | Mark3 | Total | GPA     |
++------------+----------+------------+--------+-------+-------+-------+-------+---------+
+| 1001       | disha    | 1999-05-07 | MCA    |    85 |    76 |    87 |   248 | 82.6667 |
+| 1002       | akshar   | 1999-11-11 | MCA    |    52 |    71 |    35 |   158 | 52.6667 |
+| 4VP21MB041 | Sandhya  | 2000-05-20 | MBA    |    21 |    35 |    48 |   104 | 34.6667 |
+| 4VP21MC040 | Shivani  | 2000-02-10 | MCA    |    45 |    56 |    52 |   153 |      51 |
+| 4VP21MC042 | Shraddha | 1999-10-14 | MBA    |    45 |    56 |    52 |   153 |      51 |
++------------+----------+------------+--------+-------+-------+-------+-------+---------+
+5 rows in set (0.00 sec)
+
+
+iii. Find the students who born on a particular year of birth from the date_of_birth column.
+SELECT YEAR(DOB) FROM student;
++-----------+
+| YEAR(DOB) |
++-----------+
+|      1999 |
+|      1999 |
+|      2000 |
+|      2000 |
+|      1999 |
++-----------+
+5 rows in set (0.00 sec)
+
+
+iv. List the students who are studying in a particular branch of study.
+select ALL Branch,Name from student;
++--------+----------+
+| Branch | Name     |
++--------+----------+
+| MCA    | disha    |
+| MCA    | akshar   |
+| MBA    | Sandhya  |
+| MCA    | Shivani  |
+| MBA    | Shraddha |
++--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select Branch,Name from student;
++--------+----------+
+| Branch | Name     |
++--------+----------+
+| MCA    | disha    |
+| MCA    | akshar   |
+| MBA    | Sandhya  |
+| MCA    | Shivani  |
+| MBA    | Shraddha |
++--------+----------+
+5 rows in set (0.00 sec)
+
+v. Find the maximum GPA score of the student branch-wise.
+select Branch,max(GPA) from student group by Branch;
++--------+----------+
+| Branch | max(GPA) |
++--------+----------+
+| MCA    |  82.6667 |
+| MBA    |       51 |
++--------+----------+
+2 rows in set (0.00 sec)
+
+vi. Find the students whose name starts with the alphabet “S”.
+select Name from student where Name like 'S%';
++----------+
+| Name     |
++----------+
+| Sandhya  |
+| Shivani  |
+| Shraddha |
++----------+
+3 rows in set (0.00 sec)
+
+
+vii. Find the students whose name ends with the alphabets “AR”.
+select Name from student where Name like '%AR';
++--------+
+| Name   |
++--------+
+| akshar |
++--------+
+1 row in set (0.01 sec)
+
+
+viii. Delete the student details whose USN is given as 1001.
+delete from student where USN="1001";
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student;
++------------+----------+------------+--------+-------+-------+-------+-------+---------+
+| USN        | Name     | DOB        | Branch | Mark1 | Mark2 | Mark3 | Total | GPA     |
++------------+----------+------------+--------+-------+-------+-------+-------+---------+
+| 1002       | akshar   | 1999-11-11 | MCA    |    52 |    71 |    35 |   158 | 52.6667 |
+| 4VP21MB041 | Sandhya  | 2000-05-20 | MBA    |    21 |    35 |    48 |   104 | 34.6667 |
+| 4VP21MC040 | Shivani  | 2000-02-10 | MCA    |    45 |    56 |    52 |   153 |      51 |
+| 4VP21MC042 | Shraddha | 1999-10-14 | MBA    |    45 |    56 |    52 |   153 |      51 |
++------------+----------+------------+--------+-------+-------+-------+-------+---------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+ STADIUM:
+ 
+ alter table TEAM
+    -> modify captainId varchar(20);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc TEAM;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| TID       | varchar(20) | NO   | PRI | NULL    |       |
+| Tname     | varchar(30) | NO   |     | NULL    |       |
+| COACH     | varchar(30) | NO   |     | NULL    |       |
+| captainId | varchar(20) | YES  | MUL | NULL    |       |
+| CITY      | varchar(30) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+insert into TEAM(TID,Tname,COACH,CITY)values("123","rcb","sunil","banglore");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into TEAM(TID,Tname,COACH,CITY)values("124","CSK","laxman","chennai");
+insert into TEAM(TID,Tname,COACH,CITY)values("125","Royals","singh","rajasthan");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into TEAM(TID,Tname,COACH,CITY)values("126","daredevils","setwag","delhi");
+Query OK, 1 row affected (0.00 sec)
+select * from TEAM;
++-----+------------+--------+-----------+-----------+
+| TID | Tname      | COACH  | captainId | CITY      |
++-----+------------+--------+-----------+-----------+
+| 123 | rcb        | sunil  | NULL      | banglore  |
+| 124 | CSK        | laxman | NULL      | chennai   |
+| 125 | Royals     | singh  | NULL      | rajasthan |
+| 126 | daredevils | setwag | NULL      | delhi     |
++-----+------------+--------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+desc PLAYER;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| PID   | varchar(20) | NO   | PRI | NULL    |       |
+| PNAME | varchar(30) | NO   |     | NULL    |       |
+| AGE   | int         | NO   |     | NULL    |       |
+| TID   | varchar(20) | YES  | MUL | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into PLAYER values("1","sachin",33,"123");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into PLAYER values("2","dravid",32,"124");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into PLAYER values("3","dhoni",30,"124");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into PLAYER values("4","raina",30,"125");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into PLAYER values("5","kohli",23,"126");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from PLAYER;
++-----+--------+-----+------+
+| PID | PNAME  | AGE | TID  |
++-----+--------+-----+------+
+| 1   | sachin |  33 | 123  |
+| 2   | dravid |  32 | 124  |
+| 3   | dhoni  |  30 | 124  |
+| 4   | raina  |  30 | 125  |
+| 5   | kohli  |  23 | 126  |
++-----+--------+-----+------+
+5 rows in set (0.00 sec)
+
+
+DESC STADIUM;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| SID     | varchar(20) | NO   | PRI | NULL    |       |
+| SNAME   | varchar(30) | NO   |     | NULL    |       |
+| PINCODE | int         | NO   |     | NULL    |       |
+| CITY    | varchar(30) | NO   |     | NULL    |       |
+| AREA    | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into STADIUM values("111","chinnaswamy",56001,"banglore","mgroad");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into STADIUM values("222","kotla",56001,"delhi","highway");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into STADIUM values("333","International",88001,"chennai","Tr Nagar");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into STADIUM values("444","KSCA",56098,"banglore","peenya");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into STADIUM values("555","CSCA",609035,"coachin","beach road");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from STADIUM;
++-----+---------------+---------+----------+------------+
+| SID | SNAME         | PINCODE | CITY     | AREA       |
++-----+---------------+---------+----------+------------+
+| 111 | chinnaswamy   |   56001 | banglore | mgroad     |
+| 222 | kotla         |   56001 | delhi    | highway    |
+| 333 | International |   88001 | chennai  | Tr Nagar   |
+| 444 | KSCA          |   56098 | banglore | peenya     |
+| 555 | CSCA          |  609035 | coachin  | beach road |
++-----+---------------+---------+----------+------------+
+5 rows in set (0.00 sec)
+
+
+update TEAM set captainId="2" where TID="126";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update TEAM set captainId="4" where TID="125";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update TEAM set captainId="3" where TID="124";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update TEAM set captainId="1" where TID="123";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from TEAM;
++-----+------------+--------+-----------+-----------+
+| TID | Tname      | COACH  | captainId | CITY      |
++-----+------------+--------+-----------+-----------+
+| 123 | rcb        | sunil  | 1         | banglore  |
+| 124 | CSK        | laxman | 3         | chennai   |
+| 125 | Royals     | singh  | 4         | rajasthan |
+| 126 | daredevils | setwag | 2         | delhi     |
++-----+------------+--------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+
