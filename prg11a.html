@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10b-program</title>
+    <style>
+        
+    </style>
+    <script>
+          $(function (){
+            //  $("#fi").click(function(){
+            //   $('div').fadeIn(3000);
+            // });
+            //     $("#fo").click(function(){
+            //         $("div").fadeOut(3000);
+            //     });
+
+
+                $("#x").click(function(){
+                    $("#animdiv").animate({height:'600px',width:'800px'},2000)
+                });
+                $("#y").click(function(){
+                    $("#animdiv").animate({height:'200px',width:'400px'},1000)
+                });
+
+          });
+</script>
+</head>
+<body>
+    <button id="x">Animate(bigger)</button>
+    <button id="y">Animate(smaller)</button>
+    <div id="animdiv" style="background-color: rgb(231, 185, 120); height: 200px; width: 400px;">
+    </div>
+    <!-- <div style="background-color: lightblue;">
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur, quasi voluptatum! Dolor quam perspicia</p>
+    </div>
+    <div style="background-color: lightgreen;">
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur, quasi voluptatum! Dolor quam perspicia</p>
+    </div>
+    <button id="fi">Fade In</button>
+    <button id="fo">Fade Out</button> -->
+</body>
+</html>

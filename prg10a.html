@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10a-progarm</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <script>
+        $(function(){
+            var maxl=$("#maxtext").attr('maxlength');
+            $("span").text(maxl);
+            $("#maxtext").keyup(function(){
+                var l= maxl - $(this).val().length;
+                $("#m").text(l);
+            })
+            $("#agree").click(function(){
+                if($(this).is(':checked'))
+                $('#sbbtn').removeAttr('disabled');
+                else
+                $('#sbbtn').attr('disabled','disabled');
+            });
+
+        });
+        
+    </script>
+</head>
+<body>
+    <form>
+    <h4>Maximum <span>25</span> characters</h4>
+    <textarea id="maxtext" cols="50" rows="10" maxlength="35"></textarea>
+    <h4><span id="m">25</span> characters are remaining</h4>
+
+    <label for="agree"><input type="checkbox" name="agree" id="agree">I agree for the rules and regulations</label>
+    <input type="button" id="sbbtn" value="submit" disabled>
+</form>
+</body>
+</html>
