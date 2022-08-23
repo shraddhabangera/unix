@@ -1,0 +1,49 @@
+MainActivity.java
+package com.example.video_viewer;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.MediaController;
+import android.widget.VideoView;
+
+public class MainActivity extends AppCompatActivity {
+VideoView videoView;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        videoView=findViewById(R.id.video);
+        MediaController mediaController=new MediaController(this);
+        //MediaController.setMediaPlayer(videoView);
+        videoView.setMediaController(mediaController);
+        videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.file_example));
+    }
+}
+
+
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <VideoView
+            android:id="@+id/video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>
+
+
+video-youtube
+https://www.youtube.com/watch?v=VyVUnxUF1kw
