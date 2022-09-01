@@ -1,0 +1,445 @@
+create database VP21MC042_Tour;
+
+use VP21MC042_Tour;
+Database changed
+mysql> create table Tourist
+    -> (
+    -> tId int(5)PRIMARY KEY,
+    -> tName varchar(20)NOT NULL,
+    -> age int(4),
+    -> country varchar(20)NOT NULL);
+Query OK, 0 rows affected, 2 warnings (0.01 sec)
+
+mysql> desc Tourist;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tId     | int         | NO   | PRI | NULL    |       |
+| tName   | varchar(20) | NO   |     | NULL    |       |
+| age     | int         | YES  |     | NULL    |       |
+| country | varchar(20) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+create table TouristPlace
+    -> (
+    -> tpId int(5)PRIMARY KEY,
+    -> tpName varchar(20)NOT NULL,
+    -> state varchar(20)NOT NULL,
+    -> KM int(10),
+    -> history varchar(20));
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> desc TouristPlace;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tpId    | int         | NO   | PRI | NULL    |       |
+| tpName  | varchar(20) | NO   |     | NULL    |       |
+| state   | varchar(20) | NO   |     | NULL    |       |
+| KM      | int         | YES  |     | NULL    |       |
+| history | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+
+create table Visit
+    -> (
+    -> tId int(5)NOT NULL,
+    -> tpId int(5)NOT NULL,
+    -> vDate date,
+    -> foreign key(tId)references Tourist(tId),
+    -> foreign key(tpId)references TouristPlace(tpId));
+Query OK, 0 rows affected, 2 warnings (0.03 sec)
+
+mysql> desc Visit;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| tId   | int  | NO   | MUL | NULL    |       |
+| tpId  | int  | NO   | MUL | NULL    |       |
+| vDate | date | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+
+create table Email
+    -> (
+    -> tId int(5)NOT NULL,
+    -> emailId varchar(40)NOT NULL UNIQUE);
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> desc Email;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tId     | int         | NO   |     | NULL    |       |
+| emailId | varchar(40) | NO   | PRI | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+desc Tourist;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tId     | int         | NO   | PRI | NULL    |       |
+| tName   | varchar(20) | NO   |     | NULL    |       |
+| age     | int         | YES  |     | NULL    |       |
+| country | varchar(20) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Tourist values(T1,"Ankush",27,"India");
+ERROR 1054 (42S22): Unknown column 'T1' in 'field list'
+mysql> insert into Tourist values(1,"Ankush",27,"India");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Tourist values(2,"Margi",23,"France");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Tourist values(3,"Huwan",35,"China");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Tourist values(4,"Preesha",25,"India");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Tourist values(5,"Tom",34,"US");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Tourist values(6,"Yukthi",31,"India");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Tourist values(7,"Udani",26,"SriLanka");
+Query OK, 1 row affected (0.00 sec)
+
+select * from Tourist;
++-----+---------+------+----------+
+| tId | tName   | age  | country  |
++-----+---------+------+----------+
+|   1 | Ankush  |   27 | India    |
+|   2 | Margi   |   23 | France   |
+|   3 | Huwan   |   35 | China    |
+|   4 | Preesha |   25 | India    |
+|   5 | Tom     |   34 | US       |
+|   6 | Yukthi  |   31 | India    |
+|   7 | Udani   |   26 | SriLanka |
++-----+---------+------+----------+
+
+
+
+desc TouristPlace;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tpId    | int         | NO   | PRI | NULL    |       |
+| tpName  | varchar(20) | NO   |     | NULL    |       |
+| state   | varchar(20) | NO   |     | NULL    |       |
+| KM      | int         | YES  |     | NULL    |       |
+| history | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into TouristPlace values(11,"Mysore_Palace","Karnataka",160,"Architecture");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into TouristPlace values(12,"Hampi","Karnataka",100,"Cultural");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into TouristPlace values(13,"Jog_Falls","Karnataka",100,"Waterfall");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into TouristPlace values(14,"Agonda","Goa",100,"Beach");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into TouristPlace values(15,"Eravikulam_park","Kerala",2500,"Views");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into TouristPlace values(16,"Agarthala","Tripura",230,"Palace");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into TouristPlace values(17,"Udaipur","Tripura",257,"Ancient_Temple");
+Query OK, 1 row affected (0.01 sec)
+
+insert into TouristPlace values(18,"Aga_temp","Tripura",230,"Beauty");
+Query OK, 1 row affected (0.01 sec)
+
+select * from TouristPlace;
++------+-----------------+-----------+------+----------------+
+| tpId | tpName          | state     | KM   | history        |
++------+-----------------+-----------+------+----------------+
+|   11 | Mysore_Palace   | Karnataka |  160 | Architecture   |
+|   12 | Hampi           | Karnataka |  100 | Cultural       |
+|   13 | Jog_Falls       | Karnataka |  100 | Waterfall      |
+|   14 | Agonda          | Goa       |  100 | Beach          |
+|   15 | Eravikulam_park | Kerala    | 2500 | Views          |
+|   16 | Agarthala       | Tripura   |  230 | Palace         |
+|   17 | Udaipur         | Tripura   |  257 | Ancient_Temple |
+|   18 | Aga_temp        | Tripura   |  230 | Beauty         |
++------+-----------------+-----------+------+----------------+
+
+
+desc Visit;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| tId   | int  | NO   | MUL | NULL    |       |
+| tpId  | int  | NO   | MUL | NULL    |       |
+| vDate | date | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+insert into Visit values(1,14,'2021-04-15');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(3,14,'2021-08-12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(6,14,'2019-10-14');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(4,14,'2019-02-24');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(7,13,'2019-08-20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(7,14,'2020-08-20');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Visit values(7,11,'2020-05-10');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Visit values(7,12,'2021-05-25');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Visit values(7,15,'2021-02-08');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(7,16,'2020-03-18');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Visit values(7,17,'2022-04-28');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Visit values(2,14,'2022-03-28');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Visit values(5,14,'2021-03-20');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into Visit values(2,14,'2020-07-24');
+Query OK, 1 row affected (0.00 sec)
+ select * from Visit;
++-----+------+------------+
+| tId | tpId | vDate      |
++-----+------+------------+
+|   1 |   14 | 2021-04-15 |
+|   3 |   14 | 2021-08-12 |
+|   6 |   14 | 2019-10-14 |
+|   4 |   14 | 2019-02-24 |
+|   7 |   13 | 2019-08-20 |
+|   7 |   14 | 2020-08-20 |
+|   7 |   11 | 2020-05-10 |
+|   7 |   12 | 2021-05-25 |
+|   7 |   15 | 2021-02-08 |
+|   7 |   16 | 2020-03-18 |
+|   7 |   17 | 2022-04-28 |
+|   2 |   14 | 2022-03-28 |
+|   5 |   14 | 2021-03-20 |
+|   2 |   14 | 2020-07-24 |
++-----+------+------------+
+
+
+desc Email;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tId     | int         | NO   |     | NULL    |       |
+| emailId | varchar(40) | NO   | PRI | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> insert into Email values(1,"Ankush1@gmail.com");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Email values(2,"Margi25@gmail.com");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Email values(3,"Huwan6@gmail.com");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Email values(4,"Preesha78@gmail.com");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Email values(5,"Tom254@gmail.com");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Email values(6,"Yukthi54@gmail.com");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Email values(7,"udani245@gmail.com");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Email values(7,"udani5@gmail.com");
+Query OK, 1 row affected (0.00 sec)
+ select * from Email;
++-----+---------------------+
+| tId | emailId             |
++-----+---------------------+
+|   1 | Ankush1@gmail.com   |
+|   3 | Huwan6@gmail.com    |
+|   2 | Margi25@gmail.com   |
+|   4 | Preesha78@gmail.com |
+|   5 | Tom254@gmail.com    |
+|   7 | udani245@gmail.com  |
+|   7 | udani5@gmail.com    |
+|   6 | Yukthi54@gmail.com  |
++-----+---------------------+
+
+
+i. List the state name which is having maximum number of tourist places.
+ select state,count(tpId) from TouristPlace group by state order by count(tpId) desc limit 1;
++-----------+-------------+
+| state     | count(tpId) |
++-----------+-------------+
+| Karnataka |           3 |
++-----------+-------------+
+or
+ select state from TouristPlace group by state having count(*)=(select count(*) from TouristPlace group by state order by count(state) desc limit 1);
++-----------+
+| state     |
++-----------+
+| Karnataka |
+| Tripura   |
++-----------+
+
+
+ii. List details of Tourist place where maximum number of tourists visited.
+select * from TouristPlace where tpId =(select tpId from Visit group by tpId order by count(tpId) desc limit 1);
++------+--------+-------+------+---------+
+| tpId | tpName | state | KM   | history |
++------+--------+-------+------+---------+
+|   14 | Agonda | Goa   |  100 | Beach   |
++------+--------+-------+------+---------+
+1 row in set (0.00 sec)
+or
+mysql> select tpId,tpName,state,count(tId) from TouristPlace,Visit where Visit.tpId=TouristPlace.tpId group by Visit.tpId order by count(Visit.tpId) desc limit 1;
+
+iii. List the details of tourists visited all tourist places of the state “KARNATAKA”.
+(visited same place one time)
+select * from Tourist where tId in(select tId from Visit,TouristPlace where Visit.tpId=TouristPlace.tpId and state="Karnataka" group by tId having count(state)in(select count(state)from TouristPlace where state="Karnataka"));
++-----+--------+------+----------+
+| tId | tName  | age  | country  |
++-----+--------+------+----------+
+|   1 | Ankush |   27 | India    |
+|   7 | Udani  |   26 | SriLanka |
++-----+--------+------+----------+
+or
+(visited two place is repeated)
+select * from Tourist where tId in(select tId from Visit,TouristPlace where Visit.tpId=TouristPlace.tpId and state="Karnataka" group by tId having count(distinct TouristPlace.tpId)in(select count(tpId)from TouristPlace where state="Karnataka"));
++-----+--------+------+----------+
+| tId | tName  | age  | country  |
++-----+--------+------+----------+
+|   1 | Ankush |   27 | India    |
+|   7 | Udani  |   26 | SriLanka |
++-----+--------+------+----------+
+
+iv. Display the details of the tourists visited at least one tourist place of the state, but visited
+all states tourist places.
+
+ insert into Visit values(5,12,'2021-11-17');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(5,14,'2019-11-10');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Visit values(5,15,'2019-05-28');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(5,17,'2021-05-18');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Tourist where tId in(select tId from Visit,TouristPlace where Visit.tpId=TouristPlace.tpId group by tId having count(distinct state) in(select count(distinct state) from TouristPlace));
++-----+-------+------+----------+
+| tId | tName | age  | country  |
++-----+-------+------+----------+
+|   5 | Tom   |   34 | US       |
+|   7 | Udani |   26 | SriLanka |
++-----+-------+------+----------+
+
+
+v. Display the details of the tourist place visited by the tourists of all country.
+select * from TouristPlace where tpId in(select tpId from Visit,Tourist where Visit.tId=Tourist.tId group by tpId having count(distinct
+ country)=(select count(distinct country) from Tourist));
++------+--------+-------+------+---------+
+| tpId | tpName | state | KM   | history |
++------+--------+-------+------+---------+
+|   14 | Agonda | Goa   |  100 | Beach   |
++------+--------+-------+------+---------+
+
+
+
+inserted
+insert into Visit values(2,13,'2021-10-27');
+ insert into Visit values(1,11,'2021-05-25');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(1,12,'2020-02-14');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Visit values(1,13,'2021-10-27');
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+
+5)Election
+create database VP21MC042_election;
+
+ create table constituency ( cons_id int(20)primary key, cons_name varchar(20)not null, cons_state varchar(20), no_of_voters int(10));
+Query OK, 0 rows affected, 2 warnings (0.03 sec)
+desc constituency;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| cons_id      | int         | NO   | PRI | NULL    |       |
+| cons_name    | varchar(20) | NO   |     | NULL    |       |
+| cons_state   | varchar(20) | YES  |     | NULL    |       |
+| no_of_voters | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+
+create table party
+    -> (
+    -> pid int(20)primary key,
+    -> pname varchar(20)not null,
+    -> psymbol varchar(10));
+desc party;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| pid     | int         | NO   | PRI | NULL    |       |
+| pname   | varchar(20) | NO   |     | NULL    |       |
+| psymbol | varchar(10) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+create table candidates ( cand_id int(12)primary key, 
+    -> cand_name varchar(20)not null,
+    -> phno int(12),
+    -> age int(5),
+    -> cand_state varchar(20),
+    -> pid int(20),
+    -> foreign key(pid)references party(pid));
+ desc candidates;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| cand_id    | int         | NO   | PRI | NULL    |       |
+| cand_name  | varchar(20) | NO   |     | NULL    |       |
+| phno       | int         | YES  |     | NULL    |       |
+| age        | int         | YES  |     | NULL    |       |
+| cand_state | varchar(20) | YES  |     | NULL    |       |
+| pid        | int         | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+
