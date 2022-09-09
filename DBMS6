@@ -1,0 +1,144 @@
+desc constituency;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| cons_id      | int         | NO   | PRI | NULL    |       |
+| cons_name    | varchar(20) | NO   |     | NULL    |       |
+| cons_state   | varchar(20) | YES  |     | NULL    |       |
+| no_of_voters | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+
+desc candidates;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| cand_id    | int         | NO   | PRI | NULL    |       |
+| cand_name  | varchar(20) | NO   |     | NULL    |       |
+| phno       | varchar(12) | YES  |     | NULL    |       |
+| age        | int         | YES  |     | NULL    |       |
+| cand_state | varchar(20) | YES  |     | NULL    |       |
+| pid        | int         | YES  | MUL | NULL    |       |
+| cons_id    | int         | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+ desc party;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| pid     | int         | NO   | PRI | NULL    |       |
+| pname   | varchar(20) | NO   |     | NULL    |       |
+| psymbol | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+desc voters;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| v_id    | int         | NO   | PRI | NULL    |       |
+| vname   | varchar(20) | NO   |     | NULL    |       |
+| age     | int         | YES  |     | NULL    |       |
+| houseno | varchar(10) | YES  |     | NULL    |       |
+| city    | varchar(20) | YES  |     | NULL    |       |
+| state   | varchar(20) | YES  |     | NULL    |       |
+| pincode | int         | YES  |     | NULL    |       |
+| cand_id | int         | YES  | MUL | NULL    |       |
+| cons_id | int         | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+desc contest;
++---------+------+------+-----+---------+-------+
+| Field   | Type | Null | Key | Default | Extra |
++---------+------+------+-----+---------+-------+
+| cons_id | int  | YES  | MUL | NULL    |       |
+| cand_id | int  | YES  | MUL | NULL    |       |
++---------+------+------+-----+---------+-------+
+
+insert into constituency values(10,"Mangalore","Karnataka",200);
+insert into candidates(cand_id,cand_name,phno,age,cand_state)values(100,"vardhan","8854541124",36,"Karnataka");
+update candidates set pid=1000 where cand_id=100;
+update candidates set cons_id=10 where cand_id=100;
+ insert into party values(1000,"BJP","Lotus");
+insert into contest values(10,100);
+insert into voters values(222,"Akshatha",19,"B140","mangalore","Mangalore",554214,100,10);
+
+
+i. List the details of the candidates who are contesting from more than one constituencies
+which are belongs to different states.
+select * from candidates where cand_id in(select cand_id from contest,constituency where contest.cons_id=constituency.cons_id group by
+cand_id having count(distinct(cons_state))>1);
++---------+-----------+------------+------+------------+------+---------+
+| cand_id | cand_name | phno       | age  | cand_state | pid  | cons_id |
++---------+-----------+------------+------+------------+------+---------+
+|     100 | vardhan   | 8854541124 |   36 | Karnataka  | 1000 |      10 |
++---------+-----------+------------+------+------------+------+---------+
+
+ii. Display the state name having maximum number of constituencies.
+
+
+
+
+iii. Create a stored procedure to insert the tuple into the voter table by checking the voter
+age. If voter’s age is at least 18 years old, then insert the tuple into the voter else display the
+“Not an eligible voter msg” .
+call vote2(280,'Shraddha',26,'B144','bantwal','Karnataka',574253,102,10);
+    -> //
++--------------+
+| msg          |
++--------------+
+| row inserted |
++--------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call vote2(281,'Shraddha',16,'B144','bantwal','Karnataka',574253,102,10);
+    -> //
++--------------------+
+| msg                |
++--------------------+
+| voter not eligible |
++--------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+iv. Create a stored procedure to display the number_of_voters in the specified constituency.
+Where the constituency name is passed as an argument to the stored procedure.
+source cons.sql;
+call new1("shimla");
++--------------+
+| no_of_voters |
++--------------+
+|           90 |
++--------------+
+
+
+
+v. Create a TRIGGER to UPDATE the count of “ Number_of_voters” of the respective
+constituency in “CONSTITUENCY” table , AFTER inserting a tuple into the “VOTERS” table.
+	source trigg.sql;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into voters values(228,"prisha",25,"885","bantwal","Karnataka",574223,100,10);
+    -> //
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from constituency;
+    -> //
++---------+------------+------------+--------------+
+| cons_id | cons_name  | cons_state | no_of_voters |
++---------+------------+------------+--------------+
+|      10 | Banglore   | Karnataka  |          106 |
+|      20 | Mangalore  | Karnataka  |          200 |
+|      30 | pune       | Bihar      |          150 |
+|      40 | parlampadi | Kerala     |          120 |
+|      50 | shimla     | Kashmir    |           90 |
+|      60 | Kocchin    | Tamilnadu  |          220 |
++---------+------------+------------+--------------+
+6 rows in set (0.00 sec)
+			
+
+
+
